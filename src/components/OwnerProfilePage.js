@@ -10,6 +10,7 @@ function OwnerProfilePage() {
   const [userData, setUserData] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState("Months");
   const [adminUsers, setAdminUsers] = useState([]);
+  const [staffUsers, setStaffUsers] = useState([])
   const [salesSummary, setSalesSummary] = useState([]);
   const [incomeSummary, setIncomeSummary] = useState([]);
 
@@ -80,8 +81,20 @@ function OwnerProfilePage() {
       }
     };
 
+    const fetchStaffUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:13889/allusers');
+        const staffs = response.data.filter(user => user.role === 'packaging staff' || user.role === 'delivering staff');
+        console.log(staffs);
+        setStaffUsers(staffs);
+      } catch (error) {
+        console.error('Error fetching staff users:', error);
+      }
+    };
+
     fetchUserData();
     fetchAdminUsers();
+    fetchStaffUsers();
   }, [userId, navigate]);
 
   const handleMonthChange = (event) => {
@@ -123,9 +136,37 @@ function OwnerProfilePage() {
             {adminUsers.length > 0 ? (
               adminUsers.map((admin) => (
                 <div key={admin.user_id} className="admin-card">
-                  <p><strong>Username:</strong> {admin.username}</p>
-                  <p><strong>Name:</strong> {admin.name} {admin.lastname}</p>
-                  <p><strong>Email:</strong> {admin.email}</p>
+                  <div className="card-container">
+                    <div>
+                      <p><strong>Username:</strong> {admin.username}</p>
+                      <p><strong>Name:</strong> {admin.name} {admin.lastname}</p>
+                      <p><strong>Email:</strong> {admin.email}</p>
+                    </div>
+                    <button className="check-button">Check</button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No admin users found.</p>
+            )}
+          </div>
+        </div>
+
+        {/* Staff List Section */}
+        <div className="admin-list-section card">
+          <h2>Staff List</h2>
+          <div className="admin-list-scrollable">
+            {staffUsers.length > 0 ? (
+              staffUsers.map((staff) => (
+                  <div key={staff.user_id} className="admin-card">
+                    <div className="card-container">
+                    <div>
+                      <p><strong>Username:</strong> {staff.username}</p>
+                      <p><strong>Name:</strong> {staff.name} {staff.lastname}</p>
+                      <p><strong>Email:</strong> {staff.email}</p>
+                    </div>
+                    <button className="check-button">Check</button>
+                  </div>
                 </div>
               ))
             ) : (

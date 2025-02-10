@@ -76,3 +76,13 @@
     outline: none;
     background-color: #9D2626;
   }
+
+
+.section-title {
+  font-size: 1.8rem;
+  font-family: 'Gravitas One', cursive;
+  font-weight: bold;
+  color: #7d2d27;
+  margin: 30px 0 10px;
+  align-self:center;
+}
