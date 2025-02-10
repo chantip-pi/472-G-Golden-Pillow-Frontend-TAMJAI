@@ -142,7 +142,7 @@ function OwnerProfilePage() {
                       <p><strong>Name:</strong> {admin.name} {admin.lastname}</p>
                       <p><strong>Email:</strong> {admin.email}</p>
                     </div>
-                    <button className="check-button">Check</button>
+                    <button className="check-button" onClick={() => navigate(`/profileEmployee/${admin.user_id}`)}>Check</button>
                   </div>
                 </div>
               ))
@@ -165,7 +165,7 @@ function OwnerProfilePage() {
                       <p><strong>Name:</strong> {staff.name} {staff.lastname}</p>
                       <p><strong>Email:</strong> {staff.email}</p>
                     </div>
-                    <button className="check-button">Check</button>
+                    <button className="check-button" onClick={() => navigate(`/profileEmployee/${staff.user_id}`)}>Check</button>
                   </div>
                 </div>
               ))

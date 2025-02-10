@@ -1,0 +1,63 @@
+
+.back-button:hover {
+    opacity: 0.8;
+}
+
+.add-role-nav {
+    display: flex;
+    justify-content: space-between;  /* Positions buttons at opposite ends */
+    align-items: center;  /* Centers buttons vertically */
+    width: 90%;
+    padding: 20px;
+  }
+
+.delete-button{
+    background-color: #ac3f3f;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.staff-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    width: 100vw;
+    background-color: #fae6e1;
+    padding: 40px 20px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+.staff-info {
+    text-align: left;
+    width: 60%;
+    height: auto;  /* Changed to auto to allow dynamic content */
+    background-color: #FFFFF5;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 30px;
+  }
+  
+  .staff-info p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    font-size: 24px;
+  }
+  
+  .staff-info strong {
+    flex: 0 0 40%; /* 40% width for labels */
+    text-align: left; /* Keep the label aligned to the left */
+  }
+  
+  .staff-info span {
+    flex: 1; /* Takes up the remaining space for values */
+    text-align: center; /* Center the values */
+  }
+  

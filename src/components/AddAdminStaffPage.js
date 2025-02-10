@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AddAdminStaffPage.css";
 
 function AddAdminStaffPage() {
