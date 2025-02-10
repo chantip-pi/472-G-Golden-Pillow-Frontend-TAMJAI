@@ -25,9 +25,9 @@ body, html {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1440px;
     background-color: #FFF5F2;
-    padding: 10px 20px;
+    padding: 20px 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -38,8 +38,14 @@ body, html {
     color: #5C0202;
 }
 
-.logout-button {
-    background-color: #8a1a01;
+.button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.owner-profile .button-container .logout-button {
+    position: static;
+    background-color: #CF5B5F;
     color: #ffffff;
     border: none;
     border-radius: 50px;
@@ -49,8 +55,23 @@ body, html {
     transition: background-color 0.3s ease;
 }
 
-.logout-button:hover {
+.owner-profile .button-container .logout-button:hover {
     background-color: #a3320b;
+}
+
+.add-role-button {
+    background-color: #FFC9C9;
+    color: #000000;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-role-button:hover {
+    background-color: #cd9494;
 }
 
 /* Dashboard Layout */

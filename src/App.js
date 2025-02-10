@@ -13,6 +13,7 @@ import RegisterProductPage from './components/RegisterProductPage.js';
 import OrderHistoryPage from './components/OrderHistoryPage.js';
 import ProductListPage from './components/ProductListPage.js';
 import AdminCheckOrderPage from './components/AdminCheckOrderPage.js';
+import AddAdminStaffPage from './components/AddAdminStaffPage.js';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/OrderHistory" element={<OrderHistoryPage />} />
           <Route path="/ProductList" element={<ProductListPage />} />
           <Route path="/AdminCheck/:orderId" element={<AdminCheckOrderPage />} />
+          <Route path="/addRole" element={<AddAdminStaffPage />} />
         </Routes>
       </div>
     </Router>

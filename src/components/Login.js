@@ -39,6 +39,8 @@ function Login() {
           navigate(`/admin/${userId}`);
         } else if (data.user.role === 'owner') {
           navigate(`/owner/${userId}`);
+        } else if (data.user.role === 'delivery staff') {
+          navigate(`/delivery-staff/${userId}`)
         }
       } else {
         alert(data.message); // Show alert for invalid login

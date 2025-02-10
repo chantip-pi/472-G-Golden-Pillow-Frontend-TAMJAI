@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import './OwnerProfilePage.css';
 
+
 function OwnerProfilePage() {
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -89,12 +90,15 @@ function OwnerProfilePage() {
   };
 
   return (
+    <div className="owner-profile">
     <div className="owner-dashboard-container">
       <header className="header-dashboard">
         <h1>Owner Dashboard</h1>
-        <button className="logout-button" onClick={() => navigate('/login')}>Log out</button>
+        <div className="button-container">
+          <button className="add-role-button" onClick={() => navigate('/addRole')}>Add Admin and Staff</button>
+          <button className="logout-button" onClick={() => navigate('/login')}>Log out</button>
+        </div>
       </header>
-
       <div className="dashboard-layout">
         {/* User Info Section */}
         <div className="user-info-section card">
@@ -186,6 +190,7 @@ function OwnerProfilePage() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

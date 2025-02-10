@@ -1,0 +1,78 @@
+.back-button {
+    background-color: #E9BDB3;
+    color: #000000;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    opacity: 0.8;
+}
+
+.confirm-detail-button {
+    background-color: #A2E0AB;
+    color: #000000;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.add-role-nav {
+  display: flex;
+  justify-content: space-between;  /* Positions buttons at opposite ends */
+  align-items: center;  /* Centers buttons vertically */
+  width: 90%;
+  padding: 20px;
+}
+
+
+.select-role-title {
+    font-size: 1.8rem;
+    font-family: 'Gravitas One', cursive;
+    font-weight: bold;
+    color: #000000;
+  }
+
+.select-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    background-color: #B6757545; 
+    padding: 20px 40px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.role-buttons {
+    display: flex;
+    gap: 30px;
+  }
+  
+  .role-button {
+    border: none;
+    border-radius: 50px;
+    padding: 20px 20px;
+    font-size: 22px;
+    cursor: pointer;
+    background-color: #CF9E9D;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .role-button:hover {
+    background-color: #f0f0f0;
+    color: #333;
+  }
+  
+  .role-button-focused {
+    color: white;
+    outline: none;
+    background-color: #9D2626;
+  }
