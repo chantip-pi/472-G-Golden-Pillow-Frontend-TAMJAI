@@ -170,7 +170,7 @@ function OwnerProfilePage() {
                 </div>
               ))
             ) : (
-              <p>No admin users found.</p>
+              <p>No staff users found.</p>
             )}
           </div>
         </div>
