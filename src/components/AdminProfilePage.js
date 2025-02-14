@@ -8,6 +8,9 @@ function AdminProfilePage() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [orders, setOrders] = useState([]);
+  const [showSlip, setShowSlip] = useState(false);
+  const [orderId, setorderId] = useState(null);
+  const [selectOrder, setSelectOrder] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -34,14 +37,65 @@ function AdminProfilePage() {
     fetchOrders();
   }, [userId, navigate]);
 
+  useEffect(() => {
+    if (orderId) {
+      const order = orders.find(order => order.order_id === orderId);
+      setSelectOrder(order);
+    }
+  }, [orderId, orders]);
+
   if (!userData) {
     return <p>Loading profile...</p>;
   }
 
-  // Filter orders for each section
   const customerPaymentOrders = orders.filter(order => order.payment_status === 'Yet to check');
-  const toBePreparedOrders = orders.filter(order => order.packed_status === 'not packed yet');
-  const toBeDeliveredOrders = orders.filter(order => order.delivery_status === 'yet to send');
+
+  const handleSelectOrder = (orderId) => {
+    setorderId(orderId); 
+  };
+
+  const handleAcceptOrder = async () => {
+    try {
+      console.log(orderId);
+      await axios.post(`http://localhost:13889/orders/updatePaymentStatus`, {
+        orderId,
+        payment_status: 'Approved',
+      });
+      alert('Order payment status updated to accept.');
+    } catch (error) {
+      console.error('Error updating payment status:', error);
+      alert('Failed to update payment status.');
+    }
+  };
+
+  const handleRejectOrder = async () => {
+    try {
+      await axios.post(`http://localhost:13889/orders/updatePaymentStatus`, {
+        orderId,
+        payment_status: 'Rejected',
+      });
+      alert('Order payment status updated to reject.');
+    } catch (error) {
+      console.error('Error updating payment status:', error.response ? error.response.data : error.message);
+      alert('Failed to update payment status.');
+    }
+  };
+
+  const handleShowSlip = () => setShowSlip(true);
+
+  const handlePrintReceipt = async () => {
+    const userId = localStorage.getItem('userId');
+    try {
+      await axios.post(`http://localhost:13889/orders/createreceipt`, {
+        orderId,
+        userId,
+      });
+      alert('Receipt created successfully.');
+    } catch (error) {
+      console.error('Error creating receipt:', error.response ? error.response.data : error.message);
+      alert('Failed to create receipt.');
+    }
+  };
 
   return (
     <div className="admin-container">
@@ -83,41 +137,54 @@ function AdminProfilePage() {
                 <p>Order ID: {order.order_id}</p>
                 <p>Username: {order.username}</p>
                 <p>Purchased Date: {new Date(order.order_date).toLocaleDateString()}</p>
-                <button onClick={() => navigate(`/AdminCheck/${order.order_id}`)}>Check</button>
+                <button onClick={() => handleSelectOrder(order.order_id)}>
+                Check
+                </button>
               </div>
             ))}
           </div>
         </div>
+        {selectOrder && (
+            <div className="ordercontent-container">
+              <div className="orderdetails">
+                <p><strong>Order ID:</strong> {selectOrder.order_id}</p>
+                <p><strong>User ID:</strong> {selectOrder.user_id}</p>
+                <p><strong>Purchased Date:</strong> {new Date(selectOrder.order_date).toLocaleDateString()}</p>
+                <p><strong>Address:</strong> {selectOrder.address}</p>
 
-        {/* To be Prepared Section */}
-        <div>
-          <h2 className="section-title">To be Prepared</h2>
-          <div className="orders-section">
-            {toBePreparedOrders.map(order => (
-              <div key={order.order_id} className="order-card">
-                <p>Username: {order.username}</p>
-                <p>Order ID: {order.order_id}</p>
-                <p>Total Price: ${order.total_price}</p>
-                <button onClick={() => navigate(`/AdminCheck/${order.order_id}`)}>Check</button>
-              </div>
-            ))}
-          </div>
-        </div>
+                <div className="status-buttons">
+                  <div className="detail-inforow">
+                    <span className="detail-infolabel">Transfer Slip:</span>
+                    <button className="see-slip-button" onClick={handleShowSlip}>See the slip</button>
+                  </div>
+                  <div className="detail-inforow">
+                    <span className="detail-infolabel">Payment Status:</span>
+                    <span className="detail-infovalue">
+                      <button className="accept-order-button" onClick={handleAcceptOrder}>Accept This Order</button>
+                      <button className="reject-order-button" onClick={handleRejectOrder}>Reject This Order</button>
+                    </span>
+                  </div>
 
-        {/* To be Delivered Section */}
-        <div>
-          <h2 className="section-title">To be Delivered</h2>
-          <div className="orders-section">
-            {toBeDeliveredOrders.map(order => (
-              <div key={order.order_id} className="order-card">
-                <p>Username: {order.username}</p>
-                <p>Order ID: {order.order_id}</p>
-                <p>Status: {order.delivery_status}</p>
-                <button onClick={() => navigate(`/AdminCheck/${order.order_id}`)}>Check</button>
+                  <div className="detail-inforow">
+                    <span className="detail-infolabel">Receipt:</span>
+                    <button className="print-receiptbutton" onClick={handlePrintReceipt}>Print Receipt</button>
+                  </div>
+                </div>
+                {showSlip && (
+                <div className="modal-overlay" onClick={() => setShowSlip(false)}>
+                  <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                    <img
+                      src={`http://localhost:13889${selectOrder.slip_payment}`}
+                      alt="Transfer Slip"
+                      className="slip-image"
+                    />
+                    <button className="close-button" onClick={() => setShowSlip(false)}>Close</button>
+                  </div>
+                </div>
+              )}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          )}
       </div>
 
       <button className="logout-button" onClick={() => navigate('/login')}>

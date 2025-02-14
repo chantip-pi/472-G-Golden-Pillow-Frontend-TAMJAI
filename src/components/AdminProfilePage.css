@@ -74,12 +74,15 @@ body {
   transform: scale(1.05); /* Slight zoom effect on hover */
 }
 
-
+img {
+  width: 300px;
+  height: 300px;
+}
 
 /* Orders Grid */
 .orders-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   height: 100%;
 }
