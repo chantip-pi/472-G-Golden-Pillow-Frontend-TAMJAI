@@ -149,3 +149,19 @@ img {
   padding: 10px 20px;
   cursor: pointer;
 }
+
+.ems-form input {
+  width: 60%;
+  padding: 15px;
+  border: none;
+  background-color: #f0c3be;
+  border-radius: 20px;
+  font-size: 1rem;
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.ems-form input:focus {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}

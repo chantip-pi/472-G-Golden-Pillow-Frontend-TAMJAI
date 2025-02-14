@@ -42,7 +42,7 @@ function Login() {
         } else if (data.user.role === 'packaging staff') {
           navigate(`/packStaff/${userId}`)
         } else if (data.user.role === 'delivering staff') {
-          navigate(`/deliveringStaff/${userId}`)
+          navigate(`/deliverStaff/${userId}`)
         }
         
       } else {
