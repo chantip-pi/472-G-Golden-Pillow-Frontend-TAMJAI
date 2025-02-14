@@ -82,7 +82,7 @@ function AddAdminStaffPage() {
       const result = await response.json();
       if (response.ok) {
         alert("User registered successfully!");
-        navigate("/login"); // Redirect to login page
+        navigate(-1);
       } else {
         alert(`Registration failed: ${result.message}`);
       }
@@ -132,8 +132,8 @@ function AddAdminStaffPage() {
             Packaging Staff
           </button>
           <button
-            className={`role-button ${userData.role === "delivery staff" ? "role-button-focused" : ""}`}
-            onClick={() => handleRole("delivery staff")}
+            className={`role-button ${userData.role === "delivering staff" ? "role-button-focused" : ""}`}
+            onClick={() => handleRole("delivering staff")}
           >
             Delivery Staff
           </button>

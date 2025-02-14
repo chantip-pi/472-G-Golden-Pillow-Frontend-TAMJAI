@@ -62,6 +62,7 @@ function AdminProfilePage() {
         payment_status: 'Approved',
       });
       alert('Order payment status updated to accept.');
+      window.location.reload()
     } catch (error) {
       console.error('Error updating payment status:', error);
       alert('Failed to update payment status.');
@@ -75,6 +76,7 @@ function AdminProfilePage() {
         payment_status: 'Rejected',
       });
       alert('Order payment status updated to reject.');
+      window.location.reload()
     } catch (error) {
       console.error('Error updating payment status:', error.response ? error.response.data : error.message);
       alert('Failed to update payment status.');
