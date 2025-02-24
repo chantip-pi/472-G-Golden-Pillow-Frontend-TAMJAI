@@ -135,7 +135,7 @@ function AddAdminStaffPage() {
             className={`role-button ${userData.role === "delivering staff" ? "role-button-focused" : ""}`}
             onClick={() => handleRole("delivering staff")}
           >
-            Delivery Staff
+            Delivering Staff
           </button>
         </div>
       </div>
