@@ -60,56 +60,31 @@ function CheckDeliveryOrderPage() {
     setorderId(orderId);
   };
 
-  const handleAcceptOrder = async () => {
-    try {
-      console.log(orderId);
-      await axios.post(`http://localhost:13889/orders/updatePaymentStatus`, {
-        orderId,
-        payment_status: "Approved",
-      });
-      alert("Order payment status updated to accept.");
-      window.location.reload();
-    } catch (error) {
-      console.error("Error updating payment status:", error);
-      alert("Failed to update payment status.");
-    }
-  };
-
-  const handleRejectOrder = async () => {
-    try {
-      await axios.post(`http://localhost:13889/orders/updatePaymentStatus`, {
-        orderId,
-        payment_status: "Rejected",
-      });
-      alert("Order payment status updated to reject.");
-      window.location.reload();
-    } catch (error) {
-      console.error(
-        "Error updating payment status:",
-        error.response ? error.response.data : error.message
-      );
-      alert("Failed to update payment status.");
-    }
-  };
 
   const handleAddDelivery = async (e) => {
     e.preventDefault();
     try {
       await axios.post(`http://localhost:13889/delivered-orders`, {
-        orderId,
+        order_id: orderId,
         ems_code: emsCode,
+        staff_id: userId
       });
-      alert("Order payment status updated to accept.");
+      alert("Delivery Order has been made.");
+      await axios.post(`http://localhost:13889/orders/updatedeliveryStatus`, {
+        orderId: orderId,
+        delivery_status: "sent the packet",
+      });
+      alert("Order delivery status updated to sent the packet.");
       window.location.reload();
     } catch (error) {
-      console.error("Error updating payment status:", error);
-      alert("Failed to update payment status.");
+      console.error("Error updating delivery status status:", error);
+      alert("Failed to update delivery status status.");
     }
   };
 
 
   const handleInputChange = (event) => {
-    setEmsCode(event.target.value); // Update the state with the new EMS code
+    setEmsCode(event.target.value); 
   };
 
   return (
@@ -149,20 +124,6 @@ function CheckDeliveryOrderPage() {
             <p>
               <strong>Postal Code:</strong> {userData.postal_code}
             </p>
-          </div>
-
-          <div className="action-buttons">
-            <button className="edit-details">Edit your details</button>
-            <button>Add Coupon</button>
-            <button onClick={() => navigate("/OrderHistory")}>
-              Orders history
-            </button>
-            <button onClick={() => navigate("/RegisterProduct")}>
-              Register Products
-            </button>
-            <button onClick={() => navigate("/ProductList")}>
-              Product List
-            </button>
           </div>
         </div>
       </div>
@@ -224,23 +185,6 @@ function CheckDeliveryOrderPage() {
                     </button>
                   </form>
                   </div>
-                </div>
-                <div className="detail-inforow">
-                  <span className="detail-infolabel">Delivery Status:</span>
-                  <span className="detail-infovalue">
-                    <button
-                      className="accept-order-button"
-                      onClick={handleAcceptOrder}
-                    >
-                      Accept This Order
-                    </button>
-                    <button
-                      className="reject-order-button"
-                      onClick={handleRejectOrder}
-                    >
-                      Reject This Order
-                    </button>
-                  </span>
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@ const YourOrderPage = () => {
   const navigate = useNavigate();
   const [orderDetails, setOrderDetails] = useState(null);
   const userId = localStorage.getItem('userId');
+  const [allDeliverOrders, setAllDeliverOrders] = useState([]);
   const [allOrders, setAllOrders] = useState([]);
   const [receiptPath, setReceiptPath] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
@@ -30,6 +31,15 @@ const YourOrderPage = () => {
         setAllOrders(response.data);
       } catch (error) {
         console.error('Error fetching orders:', error);
+      }
+    };
+
+    const fetchDeliverOrders = async () => {
+      try {
+        const response = await axios.get('http://localhost:13889/delivered-orders');
+        setAllDeliverOrders(response.data);
+      } catch (error) {
+        console.error('Error fetching deliver orders:', error);
       }
     };
 
@@ -56,7 +66,7 @@ const YourOrderPage = () => {
         console.error('Error fetching products:', error);
       }
     };
-
+    fetchDeliverOrders();
     fetchAllProducts();
     fetchOrderDetails();
     fetchOrders();
@@ -92,7 +102,18 @@ const YourOrderPage = () => {
     return orderIdDetail;
   };
 
+  const findOrderEms = (orderId) => {
+    const orderEms= allDeliverOrders.find(
+      (orderEms) => orderEms.order_id === parseInt(orderId) // Make sure orderId is an integer
+    );
+    if (!orderEms) {
+      console.warn(`orderEms not found for orderId: ${orderId}`);
+    }
+    return orderEms;
+  };
+
   const orderIdDetail = findorderDetails(orderId);
+  const orderEms = findOrderEms(orderId);
 
   if (!orderDetails) {
     return <p className="loading">Loading order details...</p>;
@@ -136,7 +157,7 @@ const YourOrderPage = () => {
                 }}
               >
                 {orderIdDetail.delivery_status === 'sent the packet'
-                  ? 'Your order has been delivered'
+                  ? <p>{orderEms.ems_code}</p>
                   : 'In the process to be delivered'}
               </div>
             ) : (

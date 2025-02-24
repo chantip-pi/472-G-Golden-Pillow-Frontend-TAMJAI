@@ -84,19 +84,21 @@ function CheckPackedOrderPage() {
 
   const handlePackedstatusOrder = async () => {
     try {
-      await axios.post(`http://localhost:13889/orders/updatePackedStatus`, {
-        orderId,
-        packed_status: "packed",
-      });
-      alert("Order delivery status updated to 'packed.'");
-      // Refresh the orders list or update state
-      setOrders((prevOrders) =>
-        prevOrders.map((order) =>
-          order.order_id === orderId
-            ? { ...order, packed_status: "packed" }
-            : order
-        )
-      );
+      if (userData.role === "packaging staff") {
+        await axios.post(`http://localhost:13889/orders/updatePackedStatus`, {
+          orderId,
+          packed_status: "packed",
+        });
+        alert("Order delivery status updated to 'packed.'");
+        // Refresh the orders list or update state
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.order_id === orderId
+              ? { ...order, packed_status: "packed" }
+              : order
+          )
+        );
+      }
     } catch (error) {
       console.error(
         "Error updating packed_status:",
@@ -116,9 +118,20 @@ function CheckPackedOrderPage() {
   const togglePackedStatus = (index) => {
     setPackedStatus((prevStatus) => {
       const newStatus = { ...prevStatus };
-      newStatus[index] = !newStatus[index]; // Toggle the packed status for the product
+      newStatus[index] = !newStatus[index];
       return newStatus;
     });
+  };
+
+  const isAllProductsPacked = () => {
+    return (
+      orderDetails &&
+      orderDetails.orderLines &&
+      orderDetails.orderLines.length > 0 &&
+      orderDetails.orderLines.every(
+        (product, index) => packedStatus[index] === true
+      )
+    );
   };
 
   if (!userData) {
@@ -162,10 +175,6 @@ function CheckPackedOrderPage() {
             <p>
               <strong>Postal Code:</strong> {userData.postal_code}
             </p>
-          </div>
-
-          <div className="action-buttons">
-            <button className="edit-details">Edit your details</button>
           </div>
         </div>
       </div>
@@ -214,6 +223,17 @@ function CheckPackedOrderPage() {
                   <button
                     className="Packedstatus-button"
                     onClick={handlePackedstatusOrder}
+                    disabled={!isAllProductsPacked()}
+                    style={{
+                      backgroundColor: !isAllProductsPacked()
+                        ? "#d3d3d3"
+                        : "#4CAF50", 
+                      color: !isAllProductsPacked() ? "#a9a9a9" : "white", 
+                      cursor: !isAllProductsPacked()
+                        ? "not-allowed"
+                        : "pointer", 
+                      opacity: !isAllProductsPacked() ? 0.6 : 1, 
+                    }}
                   >
                     All Packed
                   </button>
@@ -221,52 +241,51 @@ function CheckPackedOrderPage() {
               </div>
 
               <div className="product-listad">
-              {orderDetails &&
-              orderDetails.orderLines &&
-              orderDetails.orderLines.length > 0 ? (
-                orderDetails.orderLines.map((product, index) => {
-                  const productDetails = findProductDetails(
-                    product.lotId,
-                    product.grade
-                  );
+                {orderDetails &&
+                orderDetails.orderLines &&
+                orderDetails.orderLines.length > 0 ? (
+                  orderDetails.orderLines.map((product, index) => {
+                    const productDetails = findProductDetails(
+                      product.lotId,
+                      product.grade
+                    );
 
-                  return (
-                    <div key={index} className="product-card">
-                      {productDetails ? (
-                        <>
-                          <img
-                            src={`http://localhost:13889${productDetails.image_path}`}
-                            alt="Product"
-                            className="product-image"
-                          />
-                          <div className="product-infoad">
-                            <p>Product Lot: {productDetails.lot_id}</p>
-                            <p>Grade: {productDetails.grade}</p>
-                            <p>
-                              Price each one: {productDetails.sale_price} Baht
-                            </p>
-                            <p>Amount: {product.amount}</p>
-                          </div>
-                        </>
-                      ) : (
-                        <p>Product details not available.</p>
-                      )}
-                      <button
-                        className={`packed-label ${
-                          packedStatus[index] ? "pack-green" : "packed-red"
-                        }`}
-                        onClick={() => togglePackedStatus(index)}
-                      >
-                        Pack
-                      </button>
-                    </div>
-                  );
-                })
-              ) : (
-                <p>No products in this order.</p>
-              )}
-            </div>
-            
+                    return (
+                      <div key={index} className="product-card">
+                        {productDetails ? (
+                          <>
+                            <img
+                              src={`http://localhost:13889${productDetails.image_path}`}
+                              alt="Product"
+                              className="product-image"
+                            />
+                            <div className="product-infoad">
+                              <p>Product Lot: {productDetails.lot_id}</p>
+                              <p>Grade: {productDetails.grade}</p>
+                              <p>
+                                Price each one: {productDetails.sale_price} Baht
+                              </p>
+                              <p>Amount: {product.amount}</p>
+                            </div>
+                          </>
+                        ) : (
+                          <p>Product details not available.</p>
+                        )}
+                        <button
+                          className={`packed-label ${
+                            packedStatus[index] ? "pack-green" : "packed-red"
+                          }`}
+                          onClick={() => togglePackedStatus(index)}
+                        >
+                          Pack
+                        </button>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p>No products in this order.</p>
+                )}
+              </div>
             </div>
           </div>
         )}
