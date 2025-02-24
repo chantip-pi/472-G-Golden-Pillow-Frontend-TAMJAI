@@ -119,7 +119,6 @@ function AdminProfilePage() {
           </div>
 
           <div className="action-buttons">
-            <button className="edit-details">Edit your details</button>
             <button>Add Coupon</button>
             <button onClick={() => navigate('/OrderHistory')}>Orders history</button>
             <button onClick={() => navigate('/RegisterProduct')}>Register Products</button>

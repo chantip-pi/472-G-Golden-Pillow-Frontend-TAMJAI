@@ -164,6 +164,7 @@ function OwnerProfilePage() {
                       <p><strong>Username:</strong> {staff.username}</p>
                       <p><strong>Name:</strong> {staff.name} {staff.lastname}</p>
                       <p><strong>Email:</strong> {staff.email}</p>
+                      <p><strong>Role:</strong> {staff.role}</p>
                     </div>
                     <button className="check-button" onClick={() => navigate(`/profileEmployee/${staff.user_id}`)}>Check</button>
                   </div>
